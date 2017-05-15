@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Movie(){
-    return <li> Toy Story (1995)</li>
+function Movie(props){
+    return <li> {props.title} ({props.year})</li>
 }
 
 export default Movie;

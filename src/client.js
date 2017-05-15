@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Movie from './components/Movie';
+import Layout from './containers/Layout';
 
 const app = document.getElementById('app');
 
-ReactDOM.render(<Movie />, app);
+ReactDOM.render(<Layout />, app);
