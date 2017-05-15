@@ -15,11 +15,16 @@ export default function reducer(
                 Movies: [...state.Movies, action.payload]
             };
         case 'INPUT_CHANGE':
-            console.log('action.payload',action.payload);
             return {
                 ...state,
                 inputValue: action.payload
             };
+        case 'MOVIE_FETCH_SUCCESS':
+            console.log(action.payload);
+            return {
+                ...state,
+                Movies: [...state.Movies, {title: action.payload.Title, year: action.payload.Year}]
+            }
         default: return state;
     }
 }
