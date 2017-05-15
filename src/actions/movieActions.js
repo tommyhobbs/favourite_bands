@@ -4,3 +4,11 @@ export function addMovie(movie){
         payload: movie
     }
 }
+
+export function inputChange(inputValue){
+    "use strict";
+    return {
+        type: 'INPUT_CHANGE',
+        payload: inputValue
+    }
+}
