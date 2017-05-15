@@ -6,9 +6,15 @@ export function addMovie(movie){
 }
 
 export function inputChange(inputValue){
-    "use strict";
     return {
         type: 'INPUT_CHANGE',
+        payload: inputValue
+    }
+}
+
+export function searchMovie(inputValue){
+    return {
+        type: 'SEARCH_MOVIE',
         payload: inputValue
     }
 }
