@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Movie from '../components/Movie';
+import Poster from '../components/Poster';
 import FunctionButton from '../components/FunctionButton';
 import MovieInput from '../components/MovieInput';
 import { addMovie, inputChange , searchMovie} from '../actions/movieActions';
@@ -9,13 +10,15 @@ import { addMovie, inputChange , searchMovie} from '../actions/movieActions';
 function mapStateToProps (state) {
     return {
         Movies: state.Movies,
-        inputValue: state.inputValue
+        inputValue: state.inputValue,
+        error: state.error
     }
 }
 
-function Layout({Movies, inputValue, addMovie,inputChange, searchMovie}) {
+function Layout({Movies, inputValue, error, addMovie, inputChange, searchMovie}) {
 
     const MovieItems = [];
+    const MoviePosters = [];
 
     const handleInputChanged = function(e){
         inputChange(e.target.value);
@@ -31,6 +34,7 @@ function Layout({Movies, inputValue, addMovie,inputChange, searchMovie}) {
 
     Movies.map(function(movie) {
         MovieItems.push(<Movie title={movie.title} year={movie.year}/>);
+        MoviePosters.push(<Poster title={movie.title} year={movie.year} poster={movie.poster}/>);
     });
 
     return (
@@ -38,8 +42,9 @@ function Layout({Movies, inputValue, addMovie,inputChange, searchMovie}) {
         <MovieInput inputValue={inputValue} inputChange={handleInputChanged} />
         <FunctionButton onClicked={addClicked} label='Add'/>
         <FunctionButton onClicked={searchClicked} label='Search'/>
-        <span> {inputValue} </span>
-        <ul>{MovieItems}</ul>
+        <span> {error} </span>
+        {/*<ul class="demo-list-item mdl-list">{MovieItems}</ul>*/}
+        <div class="mdl-grid">{MoviePosters}</div>
     </div>
     );
 }

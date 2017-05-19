@@ -7,7 +7,13 @@ function apiCall (title){
 
 function* fetchMovie(action) {
     const movie = yield call(apiCall, action.payload);
-    yield put({type:'MOVIE_FETCH_SUCCESS', payload: movie.data});
+    const error = '';
+    if (movie.data.Response==="True"){
+        yield put({type: 'MOVIE_FETCH_SUCCESS', payload: movie.data});
+    } else if (movie.data.Response==="False"){
+        yield put({type: 'MOVIE_FETCH_FAILURE', payload: movie.data.Error});
+    }
+
 }
 
 function* movieSaga() {

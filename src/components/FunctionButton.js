@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function FunctionButton(props){
-    return <button onClick={props.onClicked}>{props.label}</button>
+    return <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onClick={props.onClicked}>{props.label}</button>
 }
 
 FunctionButton.propTypes = {
