@@ -1,7 +1,7 @@
-export function addMovie(movie){
+export function addArtist(artist){
     return {
-        type: 'ADD_MOVIE',
-        payload: movie
+        type: 'ADD_ARTIST',
+        payload: artist
     }
 }
 
@@ -12,9 +12,9 @@ export function inputChange(inputValue){
     }
 }
 
-export function searchMovie(inputValue){
+export function searchArtist(inputValue){
     return {
-        type: 'SEARCH_MOVIE',
+        type: 'SEARCH_ARTIST',
         payload: inputValue
     }
 }

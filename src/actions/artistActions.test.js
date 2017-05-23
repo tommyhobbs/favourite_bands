@@ -1,26 +1,26 @@
 import test from 'tape';
-import * as actions from './movieActions';
+import * as actions from './artistActions';
 
-test('movieActions Test addMovie', (assert) => {
+test('artistActions Test addArtist', (assert) => {
     //Arrange
-    const message = 'should have ADD_MOVIE as type';
+    const message = 'should have ADD_ARTIST as type';
     const expected = {
-        type: 'ADD_MOVIE',
+        type: 'ADD_ARTIST',
         payload: {
-            title: 'Toy Story',
-            year: 1995
+            name: 'Toy Story',
+            popularity: 1995
         }
     };
 
     //Act
-    const actual = actions.addMovie({title:'Toy Story', year: 1995});
+    const actual = actions.addArtist({name:'Toy Story', popularity: 1995});
 
     //Assert
     assert.deepEqual(actual, expected, message);
     assert.end();
 });
 
-test('movieActions Test inputChange', (assert) => {
+test('artistActions Test inputChange', (assert) => {
     //Arrange
     const message = 'should have INPUT_CHANGE as type';
     const expected = {
@@ -36,16 +36,16 @@ test('movieActions Test inputChange', (assert) => {
     assert.end();
 });
 
-test('movieActions Test searchMovie', (assert) => {
+test('artistActions Test searchArtist', (assert) => {
     //Arrange
-    const message = 'should have SEARCH_MOVIE as type';
+    const message = 'should have SEARCH_ARTIST as type';
     const expected = {
-        type: 'SEARCH_MOVIE',
+        type: 'SEARCH_ARTIST',
         payload: 'Toy Story'
     };
 
     //Act
-    const actual = actions.searchMovie('Toy Story');
+    const actual = actions.searchArtist('Toy Story');
 
     //Assert
     assert.deepEqual(actual, expected, message);

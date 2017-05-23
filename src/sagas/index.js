@@ -1,27 +1,34 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
-function apiCall (title){
-    return axios.get('http://www.omdbapi.com/?t='+title.replace(/ /g,"+"));
+function apiCall (artist){
+    if (artist) {
+        return axios.get('https://api.spotify.com/v1/search?q=' + artist + '&&type=artist');
+    }
 }
 
-function* fetchMovie(action) {
-    const movie = yield call(apiCall, action.payload);
-    const error = '';
-    if (movie.data.Response==="True"){
-        yield put({type: 'MOVIE_FETCH_SUCCESS', payload: movie.data});
-    } else if (movie.data.Response==="False"){
-        yield put({type: 'MOVIE_FETCH_FAILURE', payload: movie.data.Error});
+function* fetchArtist(action) {
+    const payload = yield call(apiCall, action.payload);
+
+    if (payload === undefined){
+        yield put({type: 'ARTIST_FETCH_FAILURE', payload: 'Invalid entry'});
     }
 
+    if (payload.data.artists.items.length !== 0){
+        var artist = payload.data.artists.items[0];
+        console.log(artist);
+        yield put({type: 'ARTIST_FETCH_SUCCESS', payload: artist});
+    } else {
+        yield put({type: 'ARTIST_FETCH_FAILURE', payload: 'No artist found for the given name'});
+    }
 }
 
-function* movieSaga() {
-    yield takeEvery ('SEARCH_MOVIE', fetchMovie);
+function* artistSaga() {
+    yield takeEvery ('SEARCH_ARTIST', fetchArtist);
 }
 
 function *sagas() {
-    yield [movieSaga()]
+    yield [artistSaga()]
 }
 
 export { sagas }

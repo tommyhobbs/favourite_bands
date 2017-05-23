@@ -20,7 +20,7 @@ function Poster(props){
     return <div class="demo-card-image mdl-card mdl-shadow--2dp" style={posterStyle}>
         <div class="mdl-card__title mdl-card--expand"></div>
         <div class="mdl-card__actions" style={style}>
-            <span class="demo-card-image__filename" style={textStyle}>{props.title} ({props.year})</span>
+            <span class="demo-card-image__filename" style={textStyle}>{props.name} ({props.popularity})</span>
         </div>
     </div>
 }
