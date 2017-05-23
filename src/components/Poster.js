@@ -8,8 +8,8 @@ function Poster(props){
     };
     const textStyle = {
         'color': '#fff',
-        'font-size':'14px',
-        'font-weight': 500
+        'fontSize':'14px',
+        'fontWeight': 500
     };
     const style = {
         height: '52px',

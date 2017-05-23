@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 import Artist from '../components/Artist';
 import Poster from '../components/Poster';
@@ -43,8 +45,20 @@ function Layout({Artists, inputValue, error, addArtist, inputChange, searchArtis
         <FunctionButton onClicked={addClicked} label='Add'/>
         <FunctionButton onClicked={searchClicked} label='Search'/>
         <span> {error} </span>
-        {/*<ul class="demo-list-item mdl-list">{ArtistItems}</ul>*/}
-        <div class="mdl-grid">{ArtistPosters}</div>
+
+        <Tabs defaultIndex={1} onSelect={index => console.log(index)}>
+            <TabList>
+                <Tab>List View</Tab>
+                <Tab>Photo View</Tab>
+            </TabList>
+
+            <TabPanel>
+                <ul class="demo-list-item mdl-list">{ArtistItems}</ul>
+            </TabPanel>
+            <TabPanel>
+                <div class="mdl-grid">{ArtistPosters}</div>
+            </TabPanel>
+        </Tabs>
     </div>
     );
 }

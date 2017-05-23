@@ -20,7 +20,8 @@ export default function reducer(
             console.log(action.payload);
             return {
                 ...state,
-                Artists: [...state.Artists, {name: action.payload.name, popularity: action.payload.popularity, poster: action.payload.images[0].url }]
+                Artists: [...state.Artists, {name: action.payload.name, popularity: action.payload.popularity, poster: action.payload.images[0].url }],
+                error: ''
             };
         case 'ARTIST_FETCH_FAILURE':
             console.log(action.payload);
