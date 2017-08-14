@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
+import Login from '../containers/Login';
 import Artist from '../components/Artist';
 import Poster from '../components/Poster';
 import FunctionButton from '../components/FunctionButton';
@@ -34,13 +35,29 @@ function Layout({Artists, inputValue, error, addArtist, inputChange, searchArtis
         searchArtist(inputValue);
     };
 
-    Artists.map(function(artist) {
-        ArtistItems.push(<Artist name={artist.name} popularity={artist.popularity}/>);
-        ArtistPosters.push(<Poster name={artist.name} popularity={artist.popularity} poster={artist.poster}/>);
+    Artists.map(function(artist, index) {
+        ArtistItems.push(
+          <Artist
+            key={index}
+            name={artist.name}
+            popularity={artist.popularity}
+          />
+        );
+        ArtistPosters.push(
+          <Poster
+            key={index}
+            name={artist.name}
+            popularity={artist.popularity}
+            poster={artist.poster}
+          />
+        );
     });
 
     return (
     <div>
+      <div>
+        <Login />
+      </div>
         <ArtistInput inputValue={inputValue} inputChange={handleInputChanged} />
         <FunctionButton onClicked={addClicked} label='Add'/>
         <FunctionButton onClicked={searchClicked} label='Search'/>

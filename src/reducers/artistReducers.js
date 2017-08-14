@@ -4,8 +4,11 @@ export default function reducer(
             {name: 'Nirvana' , popularity:80 , poster: '"https://i.scdn.co/image/84282c28d851a700132356381fcfbadc67ff498b"'}
         ],
         inputValue: '',
-        error: ''
-    },action){
+        error: '',
+        email: '',
+        password: '',
+    },
+    action){
 
     switch(action.type){
         case 'ADD_ARTIST':
