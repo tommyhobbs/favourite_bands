@@ -8,17 +8,18 @@ import Artist from '../components/Artist';
 import Poster from '../components/Poster';
 import FunctionButton from '../components/FunctionButton';
 import ArtistInput from '../components/ArtistInput';
-import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
+import { addArtist, inputChange , searchArtist, setAccessToken} from '../actions/artistActions';
 
 function mapStateToProps (state) {
     return {
         Artists: state.Artists,
         inputValue: state.inputValue,
-        error: state.error
+        error: state.error,
+        accessToken: state.accessToken,
     }
 }
 
-function Layout({Artists, inputValue, error, addArtist, inputChange, searchArtist}) {
+function Layout({accessToken, Artists, inputValue, error, addArtist, inputChange, searchArtist, setAccessToken}) {
 
     const ArtistItems = [];
     const ArtistPosters = [];
@@ -53,10 +54,21 @@ function Layout({Artists, inputValue, error, addArtist, inputChange, searchArtis
         );
     });
 
+
+    const windowMessage = (e) => {
+      console.log(e);
+      if (typeof e.data === 'string') {
+        const data = JSON.parse(e.data);
+        if (data.hasOwnProperty('access_token')) {
+          setAccessToken(data.access_token);
+        }
+      }
+    };
+
     return (
     <div>
       <div>
-        <Login />
+        <Login loggedIn={windowMessage}/>
       </div>
         <ArtistInput inputValue={inputValue} inputChange={handleInputChanged} />
         <FunctionButton onClicked={addClicked} label='Add'/>
@@ -80,4 +92,4 @@ function Layout({Artists, inputValue, error, addArtist, inputChange, searchArtis
     );
 }
 
-export default connect(mapStateToProps,{ addArtist, inputChange, searchArtist})(Layout);
+export default connect(mapStateToProps,{ addArtist, inputChange, searchArtist, setAccessToken})(Layout);

@@ -1,9 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
-function apiCall (artist){
+function apiCall (artist, accessToken){
     if (artist) {
-        return axios.get('https://api.spotify.com/v1/search?q=' + artist + '&&type=artist');
+        console.log(accessToken);
+        return axios.get('https://api.spotify.com/v1/search?q=' + artist + '&&type=artist' , {
+          headers: { "Authorization": "Bearer " + accessToken }
+        });
     }
 }
 

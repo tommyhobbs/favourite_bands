@@ -10,22 +10,15 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.CLIENT_ID = '243b3ba29bd44d0dbf1f70d1a82ebc20';
-    this.REDIRECT_URI = 'http://localhost:8081/callback.html';
+    this.REDIRECT_URI = 'http://localhost:8080/callback.html';
     this.scopes = [];
-    this.handleMessage = this.handleMessage.bind(this);
     this.loginClicked = this.loginClicked.bind(this);
-  }
-
-  componentWillMount(){
-
+    this.loggedIn = props.loggedIn.bind(this);
   }
 
   componentDidMount(){
-    window.addEventListener('message', this.handleMessage);
-  }
-
-  handleMessage(e) {
-    console.log(e);
+    window.addEventListener('message', this.loggedIn);
+    console.log(this.loggedIn);
   }
 
   loginClicked() {
