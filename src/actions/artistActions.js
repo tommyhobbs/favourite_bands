@@ -18,10 +18,3 @@ export function searchArtist(inputValue){
         payload: inputValue
     }
 }
-
-export function setAccessToken(accessToken) {
-    return {
-        type: 'ACCESS_TOKEN',
-        payload: accessToken
-    }
-}

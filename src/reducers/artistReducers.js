@@ -5,7 +5,6 @@ export default function reducer(
         ],
         inputValue: '',
         error: '',
-        accessToken: '',
     },
     action){
 
@@ -32,12 +31,6 @@ export default function reducer(
             return {
                 ...state,
                 error: action.payload
-            };
-        case 'ACCESS_TOKEN':
-            console.log(action.payload);
-            return {
-                ...state,
-                accessToken: action.payload
             };
         default: return state;
     }

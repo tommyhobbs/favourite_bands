@@ -19,7 +19,7 @@ function mapStateToProps (state) {
     }
 }
 
-function Layout({accessToken, Artists, inputValue, error, addArtist, inputChange, searchArtist, setAccessToken}) {
+function Layout({accessToken, Artists, inputValue, error, addArtist, inputChange, searchArtist}) {
 
     const ArtistItems = [];
     const ArtistPosters = [];
@@ -60,7 +60,8 @@ function Layout({accessToken, Artists, inputValue, error, addArtist, inputChange
       if (typeof e.data === 'string') {
         const data = JSON.parse(e.data);
         if (data.hasOwnProperty('access_token')) {
-          setAccessToken(data.access_token);
+          console.log(data.access_token);
+          localStorage.setItem('FavouriteBands.accessToken', data.access_token);
         }
       }
     };
