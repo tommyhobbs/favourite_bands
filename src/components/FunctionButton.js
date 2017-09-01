@@ -6,7 +6,6 @@ function FunctionButton(props){
 }
 
 FunctionButton.propTypes = {
-    addClicked: PropTypes.func.isRequired
 }
 
 export default FunctionButton;

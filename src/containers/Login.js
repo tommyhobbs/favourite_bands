@@ -18,7 +18,6 @@ class Login extends React.Component {
 
   componentDidMount(){
     window.addEventListener('message', this.loggedIn);
-    console.log(this.loggedIn);
   }
 
   loginClicked() {
