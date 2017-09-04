@@ -5,6 +5,25 @@ import 'react-tabs/style/react-tabs.css';
 import FunctionButton from '../components/FunctionButton';
 import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
 
+const windowMessage = function (e) {
+  console.log('Login:_windowMessage what is this? %o', this);
+  if (typeof e.data === 'string') {
+    const data = JSON.parse(e.data);
+    if (data.hasOwnProperty('access_token')) {
+      localStorage.setItem('FavouriteBands.accessToken', data.access_token);
+    }
+    if (data.hasOwnProperty('expires_in')) {
+      const now = new Date();
+      // expires_in value is seconds
+      const expires = new Date(now.getTime() + data.expires_in * 1000);
+      console.log(`token expires at ${expires}`);
+      localStorage.setItem('FavouriteBands.expires', expires);
+    }
+
+    this.userLoggedIn(data);
+  }
+};
+
 class Login extends React.Component {
 
   constructor(props) {
@@ -13,11 +32,18 @@ class Login extends React.Component {
     this.REDIRECT_URI = 'http://localhost:8080/callback.html';
     this.scopes = [];
     this.loginClicked = this.loginClicked.bind(this);
-    this.loggedIn = props.loggedIn.bind(this);
+    this.userLoggedIn = this.userLoggedIn.bind(this);
+    this.state = {
+      userName: ''
+    };
   }
 
   componentDidMount(){
-    window.addEventListener('message', this.loggedIn);
+    window.addEventListener('message', windowMessage.bind(this));
+  }
+
+  userLoggedIn(responseObj){
+    console.log('Login:userLoggedIn %o', responseObj);
   }
 
   loginClicked() {

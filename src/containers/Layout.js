@@ -2,49 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import { bindActionCreators } from 'redux';
 
 import Login from '../containers/Login';
 import Artist from '../components/Artist';
 import Poster from '../components/Poster';
 import FunctionButton from '../components/FunctionButton';
 import ArtistInput from '../components/ArtistInput';
-import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
+// import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
+
+import * as ArtistActionCreators from '../actions/artistActions';
 
 class Layout extends React.Component {
 
   constructor(props){
+    console.log('Layout: props %o', props);
     super(props);
     this.ArtistItems = [];
     this.ArtistPosters = [];
+    this.handleInputChanged = this.handleInputChanged.bind(this);
+    this.searchClicked = this.searchClicked.bind(this);
+    this.buildArtistPosters = this.buildArtistPosters.bind(this);
   }
-
-  handleInputChanged(e){
-    inputChange(e.target.value);
-  };
-
-  addClicked(){
-    addArtist({title:inputValue , year: '2017'});
-  };
-
-  searchClicked(){
-    searchArtist(inputValue);
-  };
-
-  windowMessage = (e) => {
-    if (typeof e.data === 'string') {
-      const data = JSON.parse(e.data);
-      if (data.hasOwnProperty('access_token')) {
-        localStorage.setItem('FavouriteBands.accessToken', data.access_token);
-      }
-      if (data.hasOwnProperty('expires_in')) {
-        const now = new Date();
-        // expires_in value is seconds
-        const expires = new Date(now.getTime() + data.expires_in * 1000);
-        console.log(`token expires at ${expires}`);
-        localStorage.setItem('FavouriteBands.expires', expires);
-      }
-    }
-  };
 
   componentWillMount(){
     this.ArtistItems = this.props.Artists.map(function(artist, index) {
@@ -68,12 +47,44 @@ class Layout extends React.Component {
     });
   }
 
+  buildArtistPosters() {
+    console.log('Layout:buildArtistPosters');
+
+    return this.props.Artists.map(function(poster, index) {
+      return (
+        <Poster
+          key={index}
+          name={poster.name}
+          popularity={poster.popularity}
+          poster={poster.poster}
+        />
+      );
+    });
+  }
+
+  handleInputChanged(e) {
+    console.log('Layout:handleInputChanged %o', e.target.value);
+
+    const { actions: { inputChange }} = this.props;
+    inputChange(e.target.value);
+  }
+
+  addClicked(){
+    addArtist({title:this.props.inputValue , year: '2017'});
+  }
+
+  searchClicked(){
+    const { actions: { searchArtist }} = this.props;
+    searchArtist(this.props.inputValue);
+  }
+
   render() {
-    console.log(this.props);
+    console.log('Layout:render inputValue %o', this.props.inputValue);
+    console.log('Layout:render Artists %o', this.props.Artists);
     return (
       <div>
         <div>
-          <Login loggedIn={this.windowMessage}/>
+          <Login/>
         </div>
         <ArtistInput inputValue={this.props.inputValue} inputChange={this.handleInputChanged}/>
         {/*<FunctionButton onClicked={this.addClicked} label='Add'/>*/}
@@ -90,15 +101,13 @@ class Layout extends React.Component {
             <ul class="demo-list-item mdl-list">{this.ArtistItems}</ul>
           </TabPanel>
           <TabPanel>
-            <div class="mdl-grid">{this.ArtistPosters}</div>
+            <div class="mdl-grid">{this.buildArtistPosters()}</div>
           </TabPanel>
         </Tabs>
       </div>
     );
   }
 }
-
-export default connect(mapStateToProps,{ addArtist, inputChange, searchArtist})(Layout);
 
 function mapStateToProps (state) {
   return {
@@ -108,3 +117,17 @@ function mapStateToProps (state) {
     accessToken: state.accessToken,
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(
+      {...ArtistActionCreators},
+      dispatch
+    ),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Layout);

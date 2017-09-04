@@ -6,6 +6,7 @@ export function addArtist(artist){
 }
 
 export function inputChange(inputValue){
+    console.log('Action: %o', inputValue);
     return {
         type: 'INPUT_CHANGE',
         payload: inputValue

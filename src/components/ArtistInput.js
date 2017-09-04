@@ -1,6 +1,7 @@
 import React from 'react';
 
 function ArtistInput(props){
+  console.log('ArtistInput props', props);
     return (
         <form style={{'display':'inline'}} action="#">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
