@@ -6,7 +6,6 @@ import FunctionButton from '../components/FunctionButton';
 import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
 
 const windowMessage = function (e) {
-  console.log('Login:_windowMessage what is this? %o', this);
   if (typeof e.data === 'string') {
     const data = JSON.parse(e.data);
     if (data.hasOwnProperty('access_token')) {
@@ -19,7 +18,6 @@ const windowMessage = function (e) {
       console.log(`token expires at ${expires}`);
       localStorage.setItem('FavouriteBands.expires', expires);
     }
-
     this.userLoggedIn(data);
   }
 };

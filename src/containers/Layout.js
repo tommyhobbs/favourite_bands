@@ -15,7 +15,7 @@ import * as ArtistActionCreators from '../actions/artistActions';
 
 class Layout extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     console.log('Layout: props %o', props);
     super(props);
     this.ArtistItems = [];
@@ -23,10 +23,11 @@ class Layout extends React.Component {
     this.handleInputChanged = this.handleInputChanged.bind(this);
     this.searchClicked = this.searchClicked.bind(this);
     this.buildArtistPosters = this.buildArtistPosters.bind(this);
+    this.loggedIn = false;
   }
 
-  componentWillMount(){
-    this.ArtistItems = this.props.Artists.map(function(artist, index) {
+  componentWillMount() {
+    this.ArtistItems = this.props.Artists.map(function (artist, index) {
       return (
         <Artist
           key={index}
@@ -35,7 +36,7 @@ class Layout extends React.Component {
         />
       );
     });
-    this.ArtistPosters = this.props.Artists.map(function(poster, index) {
+    this.ArtistPosters = this.props.Artists.map(function (poster, index) {
       return (
         <Poster
           key={index}
@@ -45,6 +46,10 @@ class Layout extends React.Component {
         />
       );
     });
+
+    const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
+    const now = new Date();
+    this.loggedIn = now <= expires;
   }
 
   buildArtistPosters() {
@@ -81,11 +86,8 @@ class Layout extends React.Component {
   render() {
     console.log('Layout:render inputValue %o', this.props.inputValue);
     console.log('Layout:render Artists %o', this.props.Artists);
-    return (
+    return this.loggedIn ? (
       <div>
-        <div>
-          <Login/>
-        </div>
         <ArtistInput inputValue={this.props.inputValue} inputChange={this.handleInputChanged}/>
         {/*<FunctionButton onClicked={this.addClicked} label='Add'/>*/}
         <FunctionButton onClicked={this.searchClicked} label='Search'/>
@@ -105,6 +107,8 @@ class Layout extends React.Component {
           </TabPanel>
         </Tabs>
       </div>
+    ) : (
+      <Login/>
     );
   }
 }

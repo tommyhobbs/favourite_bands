@@ -1,16 +1,24 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
-function apiCall (artist){
-    if (artist) {
+function apiCall (action) {
+
+  if (action.payload) {
+    switch(action.type) {
+      case "SEARCH_ARTISTS":
         return axios.get('https://api.spotify.com/v1/search?q=' + artist + '&&type=artist' , {
           headers: { "authorization": "Bearer " + localStorage.getItem('FavouriteBands.accessToken') }
         });
+        break;
+      default: return undefined;
     }
+  }
 }
 
 function* fetchArtist(action) {
-    const payload = yield call(apiCall, action.payload);
+
+    console.log(action);
+    const payload = yield call(apiCall, action);
 
     if (payload === undefined){
         yield put({type: 'ARTIST_FETCH_FAILURE', payload: 'Invalid entry'});
