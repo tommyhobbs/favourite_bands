@@ -12,6 +12,7 @@ import ArtistInput from '../components/ArtistInput';
 // import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
 
 import * as ArtistActionCreators from '../actions/artistActions';
+import {loginChange} from "../actions/artistActions";
 
 class Layout extends React.Component {
 
@@ -23,7 +24,6 @@ class Layout extends React.Component {
     this.handleInputChanged = this.handleInputChanged.bind(this);
     this.searchClicked = this.searchClicked.bind(this);
     this.buildArtistPosters = this.buildArtistPosters.bind(this);
-    this.loggedIn = false;
   }
 
   componentWillMount() {
@@ -46,10 +46,6 @@ class Layout extends React.Component {
         />
       );
     });
-
-    const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
-    const now = new Date();
-    this.loggedIn = now <= expires;
   }
 
   buildArtistPosters() {
@@ -84,9 +80,15 @@ class Layout extends React.Component {
   }
 
   render() {
+
     console.log('Layout:render inputValue %o', this.props.inputValue);
     console.log('Layout:render Artists %o', this.props.Artists);
-    return this.loggedIn ? (
+
+    const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
+    const now = new Date();
+    loginChange(now <= expires);
+
+    return this.props.loggedIn ? (
       <div>
         <ArtistInput inputValue={this.props.inputValue} inputChange={this.handleInputChanged}/>
         {/*<FunctionButton onClicked={this.addClicked} label='Add'/>*/}
@@ -118,7 +120,7 @@ function mapStateToProps (state) {
     Artists: state.Artists,
     inputValue: state.inputValue,
     error: state.error,
-    accessToken: state.accessToken,
+    loggedIn: state.loggedIn,
   }
 }
 

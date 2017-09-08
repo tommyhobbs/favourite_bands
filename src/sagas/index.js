@@ -5,7 +5,9 @@ function apiCall (action) {
 
   if (action.payload) {
     switch(action.type) {
-      case "SEARCH_ARTISTS":
+      case "SEARCH_ARTIST":
+        const artist = action.payload;
+        console.log('apiCall https://api.spotify.com/v1/search?q=' + artist + '&&type=artist');
         return axios.get('https://api.spotify.com/v1/search?q=' + artist + '&&type=artist' , {
           headers: { "authorization": "Bearer " + localStorage.getItem('FavouriteBands.accessToken') }
         });
@@ -17,7 +19,7 @@ function apiCall (action) {
 
 function* fetchArtist(action) {
 
-    console.log(action);
+    console.log('fetchArtist action', action);
     const payload = yield call(apiCall, action);
 
     if (payload === undefined){

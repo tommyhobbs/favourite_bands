@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import 'react-tabs/style/react-tabs.css';
 
 import FunctionButton from '../components/FunctionButton';
-import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
+import * as ArtistActionCreators from '../actions/artistActions';
 
 const windowMessage = function (e) {
   if (typeof e.data === 'string') {
@@ -42,6 +43,8 @@ class Login extends React.Component {
 
   userLoggedIn(responseObj){
     console.log('Login:userLoggedIn %o', responseObj);
+    const { actions: { loginChange }} = this.props;
+    loginChange(true);
   }
 
   loginClicked() {
@@ -58,9 +61,23 @@ class Login extends React.Component {
   }
 }
 
-export default connect(mapStateToProps,{ addArtist, inputChange, searchArtist})(Login);
-
 function mapStateToProps (state) {
   return {
+    loggedIn: state.loggedIn,
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(
+      {...ArtistActionCreators},
+      dispatch
+    ),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
+

@@ -19,3 +19,10 @@ export function searchArtist(inputValue){
         payload: inputValue
     }
 }
+
+export function loginChange(bool){
+  return {
+    type: 'LOGIN_CHANGE',
+    payload: bool
+  }
+}
