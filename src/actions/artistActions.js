@@ -12,7 +12,7 @@ export function inputChange(inputValue) {
   };
 }
 
-export function searchArtist(inputValue){
+export function searchArtist(inputValue) {
   return {
     payload: inputValue,
     type: 'SEARCH_ARTIST',
