@@ -18,4 +18,4 @@ TextInput.propTypes = {
   value: PropTypes.string,
 };
 
-export TextInput;
+export default TextInput;

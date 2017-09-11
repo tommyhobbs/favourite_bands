@@ -9,10 +9,9 @@ import Artist from '../components/Artist';
 import Poster from '../components/Poster';
 import FunctionButton from '../components/FunctionButton';
 import ArtistInput from '../components/ArtistInput';
-// import { addArtist, inputChange , searchArtist} from '../actions/artistActions';
 
 import * as ArtistActionCreators from '../actions/artistActions';
-import {loginChange} from "../actions/artistActions";
+import {loginChange} from '../actions/artistActions';
 
 class Layout extends React.Component {
 
@@ -80,10 +79,6 @@ class Layout extends React.Component {
   }
 
   render() {
-
-    console.log('Layout:render inputValue %o', this.props.inputValue);
-    console.log('Layout:render Artists %o', this.props.Artists);
-
     const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
     const now = new Date();
     loginChange(now <= expires);

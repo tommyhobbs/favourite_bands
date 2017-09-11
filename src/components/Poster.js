@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Poster(props) {
   const posterStyle = {
-    'width': '256px',
-    'height': '256px',
-    'background': 'url(' + props.poster + ') center / cover',
+    background: 'url(' + props.poster + ') center / cover',
+    height: '256px',
+    width: '256px',
   };
   const textStyle = {
     'color': '#fff',
@@ -12,19 +13,24 @@ function Poster(props) {
     'fontWeight': 500,
   };
   const style = {
+    background: 'rgba(0, 0, 0, 0.2)',
     height: '52px',
     padding: '16px',
-    background: 'rgba(0, 0, 0, 0.2)',
   };
 
-  return <div class="demo-card-image mdl-card mdl-shadow--2dp"
-              style={posterStyle}>
-    <div class="mdl-card__title mdl-card--expand"></div>
-    <div class="mdl-card__actions" style={style}>
-      <span class="demo-card-image__filename" style={textStyle}>{props.name}
+  return <div className="demo-card-image mdl-card mdl-shadow--2dp"
+    style={posterStyle}>
+    <div className="mdl-card__title mdl-card--expand" />
+    <div className="mdl-card__actions" style={style}>
+      <span className="demo-card-image__filename" style={textStyle}>{props.name}
         ({props.popularity})</span>
     </div>
   </div>;
 }
+
+Poster.propTypes = {
+  popularity: PropTypes.number,
+  poster: PropTypes.object,
+};
 
 export default Poster;
