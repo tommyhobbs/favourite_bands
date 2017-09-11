@@ -1,28 +1,27 @@
-export function addArtist(artist){
-    return {
-        type: 'ADD_ARTIST',
-        payload: artist
-    }
+export function addArtist(artist) {
+  return {
+    payload: artist,
+    type: 'ADD_ARTIST',
+  };
 }
 
-export function inputChange(inputValue){
-    console.log('Action: %o', inputValue);
-    return {
-        type: 'INPUT_CHANGE',
-        payload: inputValue
-    }
+export function inputChange(inputValue) {
+  return {
+    payload: inputValue,
+    type: 'INPUT_CHANGE',
+  };
 }
 
 export function searchArtist(inputValue){
-    return {
-        type: 'SEARCH_ARTIST',
-        payload: inputValue
-    }
+  return {
+    payload: inputValue,
+    type: 'SEARCH_ARTIST',
+  };
 }
 
-export function loginChange(bool){
+export function loginChange(bool) {
   return {
+    payload: bool,
     type: 'LOGIN_CHANGE',
-    payload: bool
-  }
+  };
 }
