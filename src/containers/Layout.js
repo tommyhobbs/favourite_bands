@@ -26,6 +26,11 @@ class Layout extends React.Component {
   }
 
   componentWillMount() {
+    const { actions: { loginChange }} = this.props;
+    const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
+    const now = new Date();
+    loginChange(now <= expires);
+
     this.ArtistItems = this.props.Artists.map(function (artist, index) {
       return (
         <Artist
@@ -69,20 +74,16 @@ class Layout extends React.Component {
     inputChange(e.target.value);
   }
 
-  addClicked(){
+  addClicked() {
     addArtist({title:this.props.inputValue , year: '2017'});
   }
 
-  searchClicked(){
+  searchClicked() {
     const { actions: { searchArtist }} = this.props;
     searchArtist(this.props.inputValue);
   }
 
   render() {
-    const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
-    const now = new Date();
-    loginChange(now <= expires);
-
     return this.props.loggedIn ? (
       <div>
         <ArtistInput inputValue={this.props.inputValue} inputChange={this.handleInputChanged}/>
@@ -110,13 +111,13 @@ class Layout extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     Artists: state.Artists,
     inputValue: state.inputValue,
     error: state.error,
     loggedIn: state.loggedIn,
-  }
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
