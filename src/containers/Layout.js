@@ -11,7 +11,6 @@ import FunctionButton from '../components/FunctionButton';
 import ArtistInput from '../components/ArtistInput';
 
 import * as ArtistActionCreators from '../actions/artistActions';
-import {loginChange} from '../actions/artistActions';
 
 class Layout extends React.Component {
 

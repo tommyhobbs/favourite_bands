@@ -2,52 +2,68 @@ import test from 'tape';
 import * as actions from './artistActions';
 
 test('artistActions Test addArtist', (assert) => {
-  //Arrange
+  // Arrange
   const message = 'should have ADD_ARTIST as type';
   const expected = {
-    type: 'ADD_ARTIST',
     payload: {
       name: 'Toy Story',
       popularity: 1995,
     },
+    type: 'ADD_ARTIST',
   };
 
-  //Act
+  // Act
   const actual = actions.addArtist({name: 'Toy Story', popularity: 1995});
 
-  //Assert
+  // Assert
   assert.deepEqual(actual, expected, message);
   assert.end();
 });
 
 test('artistActions Test inputChange', (assert) => {
-  //Arrange
+  // Arrange
   const message = 'should have INPUT_CHANGE as type';
   const expected = {
-    type: 'INPUT_CHANGE',
     payload: 'Toy Story',
+    type: 'INPUT_CHANGE',
   };
 
-  //Act
+  // Act
   const actual = actions.inputChange('Toy Story');
 
-  //Assert
+  // Assert
   assert.deepEqual(actual, expected, message);
   assert.end();
 });
 
 test('artistActions Test searchArtist', (assert) => {
-  //Arrange
+  // Arrange
   const message = 'should have SEARCH_ARTIST as type';
   const expected = {
-    type: 'SEARCH_ARTIST',
     payload: 'Toy Story',
+    type: 'SEARCH_ARTIST',
   };
 
-  //Act
+  // Act
   const actual = actions.searchArtist('Toy Story');
 
-  //Assert
+  // Assert
+  assert.deepEqual(actual, expected, message);
+  assert.end();
+});
+
+test('artistActions Test loginChange', (assert) => {
+  // Arrange
+  const message = 'should have LOGIN_CHANGE as type';
+  const expected = {
+    payload: false,
+    type: 'LOGIN_CHANGE',
+  };
+
+  // Act
+  const actual = actions.loginChange(false);
+
+  // Assert
   assert.deepEqual(actual, expected, message);
   assert.end();
 });
