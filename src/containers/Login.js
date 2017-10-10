@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import 'react-tabs/style/react-tabs.css';
 
 import FunctionButton from '../components/FunctionButton';
 import * as ArtistActionCreators from '../actions/artistActions';
 
-const windowMessage = function (e) {
+const windowMessage = (e) => {
   if (typeof e.data === 'string') {
     const data = JSON.parse(e.data);
     if (data.hasOwnProperty('access_token')) {
@@ -16,6 +17,7 @@ const windowMessage = function (e) {
       const now = new Date();
       // expires_in value is seconds
       const expires = new Date(now.getTime() + data.expires_in * 1000);
+      // eslint-disable-next-line
       console.log(`token expires at ${expires}`);
       localStorage.setItem('FavouriteBands.expires', expires);
     }
@@ -24,7 +26,6 @@ const windowMessage = function (e) {
 };
 
 class Login extends React.Component {
-
   constructor(props) {
     super(props);
     this.CLIENT_ID = '243b3ba29bd44d0dbf1f70d1a82ebc20';
@@ -33,38 +34,37 @@ class Login extends React.Component {
     this.loginClicked = this.loginClicked.bind(this);
     this.userLoggedIn = this.userLoggedIn.bind(this);
     this.state = {
-      userName: ''
+      userName: '',
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     window.addEventListener('message', windowMessage.bind(this));
   }
 
-  userLoggedIn(responseObj){
-    console.log('Login:userLoggedIn %o', responseObj);
+  userLoggedIn() {
     const { actions: { loginChange }} = this.props;
     loginChange(true);
   }
 
   loginClicked() {
-    window.open('https://accounts.spotify.com/authorize?client_id='+ this.CLIENT_ID +
+    window.open('https://accounts.spotify.com/authorize?client_id=' + this.CLIENT_ID +
       '&redirect_uri=' + encodeURIComponent(this.REDIRECT_URI) +
       '&scope=' + encodeURIComponent(this.scopes.join(' ')) +
       '&response_type=token');
-  };
+  }
 
   render() {
     return (
-      <FunctionButton onClicked={this.loginClicked} label='Log in'/>
+      <FunctionButton onClicked={this.loginClicked} label ="Log in"/>
     );
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     loggedIn: state.loggedIn,
-  }
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -74,6 +74,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch
     ),
   };
+};
+
+Login.propTypes = {
+  actions: PropTypes.object,
 };
 
 export default connect(

@@ -29,8 +29,9 @@ function Poster(props) {
 }
 
 Poster.propTypes = {
+  name: PropTypes.string,
   popularity: PropTypes.number,
-  poster: PropTypes.object,
+  poster: PropTypes.string,
 };
 
 export default Poster;

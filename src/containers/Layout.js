@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import Login from '../containers/Login';
 import Artist from '../components/Artist';
@@ -13,12 +14,10 @@ import ArtistInput from '../components/ArtistInput';
 import * as ArtistActionCreators from '../actions/artistActions';
 
 class Layout extends React.Component {
-
   constructor(props) {
+    // eslint-disable-next-line no-console
     console.log('Layout: props %o', props);
     super(props);
-    this.ArtistItems = [];
-    this.ArtistPosters = [];
     this.handleInputChanged = this.handleInputChanged.bind(this);
     this.searchClicked = this.searchClicked.bind(this);
     this.buildArtistPosters = this.buildArtistPosters.bind(this);
@@ -29,8 +28,23 @@ class Layout extends React.Component {
     const expires = new Date(localStorage.getItem('FavouriteBands.expires'));
     const now = new Date();
     loginChange(now <= expires);
+  }
 
-    this.ArtistItems = this.props.Artists.map(function (artist, index) {
+  buildArtistPosters() {
+    return this.props.Artists.map((poster, index) => {
+      return (
+        <Poster
+          key={index}
+          name={poster.name}
+          popularity={poster.popularity}
+          poster={poster.poster}
+        />
+      );
+    });
+  }
+
+  buildArtistItems() {
+    return this.props.Artists.map((artist, index) => {
       return (
         <Artist
           key={index}
@@ -39,43 +53,19 @@ class Layout extends React.Component {
         />
       );
     });
-    this.ArtistPosters = this.props.Artists.map(function (poster, index) {
-      return (
-        <Poster
-          key={index}
-          name={poster.name}
-          popularity={poster.popularity}
-          poster={poster.poster}
-        />
-      );
-    });
-  }
-
-  buildArtistPosters() {
-    console.log('Layout:buildArtistPosters');
-
-    return this.props.Artists.map(function(poster, index) {
-      return (
-        <Poster
-          key={index}
-          name={poster.name}
-          popularity={poster.popularity}
-          poster={poster.poster}
-        />
-      );
-    });
   }
 
   handleInputChanged(e) {
+    // eslint-disable-next-line
     console.log('Layout:handleInputChanged %o', e.target.value);
 
     const { actions: { inputChange }} = this.props;
     inputChange(e.target.value);
   }
 
-  addClicked() {
-    addArtist({title:this.props.inputValue , year: '2017'});
-  }
+  // addClicked() {
+  //   addArtist({title: this.props.inputValue , year: '2017'});
+  // }
 
   searchClicked() {
     const { actions: { searchArtist }} = this.props;
@@ -85,9 +75,12 @@ class Layout extends React.Component {
   render() {
     return this.props.loggedIn ? (
       <div>
-        <ArtistInput inputValue={this.props.inputValue} inputChange={this.handleInputChanged}/>
-        {/*<FunctionButton onClicked={this.addClicked} label='Add'/>*/}
-        <FunctionButton onClicked={this.searchClicked} label='Search'/>
+        <ArtistInput
+          inputValue={this.props.inputValue}
+          inputChange={this.handleInputChanged}
+        />
+        {/* <FunctionButton onClicked={this.addClicked} label='Add'/>*/}
+        <FunctionButton onClicked={this.searchClicked} label="Search"/>
         <span> {this.props.error} </span>
 
         <Tabs defaultIndex={1}>
@@ -97,10 +90,12 @@ class Layout extends React.Component {
           </TabList>
 
           <TabPanel>
-            <ul class="demo-list-item mdl-list">{this.ArtistItems}</ul>
+            <ul className="demo-list-item mdl-list">
+              {this.buildArtistItems()}
+            </ul>
           </TabPanel>
           <TabPanel>
-            <div class="mdl-grid">{this.buildArtistPosters()}</div>
+            <div className="mdl-grid">{this.buildArtistPosters()}</div>
           </TabPanel>
         </Tabs>
       </div>
@@ -113,8 +108,8 @@ class Layout extends React.Component {
 function mapStateToProps(state) {
   return {
     Artists: state.Artists,
-    inputValue: state.inputValue,
     error: state.error,
+    inputValue: state.inputValue,
     loggedIn: state.loggedIn,
   };
 }
@@ -126,6 +121,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch
     ),
   };
+};
+
+Layout.propTypes = {
+  Artists: PropTypes.array,
+  actions: PropTypes.object,
+  error: PropTypes.string,
+  inputValue: PropTypes.string,
+  loggedIn: PropTypes.bool,
 };
 
 export default connect(
