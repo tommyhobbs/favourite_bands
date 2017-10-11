@@ -56,7 +56,7 @@ class Layout extends React.Component {
   }
 
   handleInputChanged(e) {
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-console
     console.log('Layout:handleInputChanged %o', e.target.value);
 
     const { actions: { inputChange }} = this.props;

@@ -35,7 +35,6 @@ module.exports = {
     filename: "client.min.js"
   },
   plugins: [
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
   ]
