@@ -30,7 +30,7 @@ class Login extends React.Component {
     super(props);
     this.CLIENT_ID = '243b3ba29bd44d0dbf1f70d1a82ebc20';
     this.REDIRECT_URI = 'http://localhost:8080/callback.html';
-    this.scopes = [];
+    this.scopes = ['user-top-read'];
     this.loginClicked = this.loginClicked.bind(this);
     this.userLoggedIn = this.userLoggedIn.bind(this);
     this.state = {
@@ -84,4 +84,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Login);
-

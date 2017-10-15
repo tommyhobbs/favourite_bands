@@ -19,6 +19,13 @@ export function searchArtist(inputValue) {
   };
 }
 
+export function searchTop(type) {
+  return {
+    payload: type,
+    type: 'SEARCH_TOP',
+  };
+}
+
 export function loginChange(bool) {
   return {
     payload: bool,

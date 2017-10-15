@@ -9,6 +9,7 @@ const initialState = {
   error: '',
   inputValue: '',
   loggedIn: false,
+  top: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -45,6 +46,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         loggedIn: action.payload,
+      };
+    case 'TOP_FETCH_SUCCESS':
+      return {
+        ...state,
+        top: action.payload,
       };
     default:
       return state;

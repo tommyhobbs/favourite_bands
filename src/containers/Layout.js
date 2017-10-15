@@ -21,6 +21,7 @@ class Layout extends React.Component {
     this.handleInputChanged = this.handleInputChanged.bind(this);
     this.searchClicked = this.searchClicked.bind(this);
     this.buildArtistPosters = this.buildArtistPosters.bind(this);
+    this.buildTopPosters = this.buildTopPosters.bind(this);
   }
 
   componentWillMount() {
@@ -55,6 +56,19 @@ class Layout extends React.Component {
     });
   }
 
+  buildTopPosters() {
+    return this.props.top.map((poster, index) => {
+      return (
+        <Poster
+          key={index}
+          name={poster.name}
+          popularity={poster.popularity}
+          poster={poster.images[0].url}
+        />
+      );
+    });
+  }
+
   handleInputChanged(e) {
     // eslint-disable-next-line no-console
     console.log('Layout:handleInputChanged %o', e.target.value);
@@ -83,10 +97,16 @@ class Layout extends React.Component {
         <FunctionButton onClicked={this.searchClicked} label="Search"/>
         <span> {this.props.error} </span>
 
-        <Tabs defaultIndex={1}>
+        <Tabs defaultIndex={1} onSelect={(index) => {
+          if (index === 2) {
+            const { actions: { searchTop }} = this.props;
+            searchTop('artists');
+          }
+        }}>
           <TabList>
             <Tab>List View</Tab>
             <Tab>Photo View</Tab>
+            <Tab>Top View</Tab>
           </TabList>
 
           <TabPanel>
@@ -96,6 +116,9 @@ class Layout extends React.Component {
           </TabPanel>
           <TabPanel>
             <div className="mdl-grid">{this.buildArtistPosters()}</div>
+          </TabPanel>
+          <TabPanel>
+            <div className="mdl-grid">{this.buildTopPosters()}</div>
           </TabPanel>
         </Tabs>
       </div>
@@ -111,6 +134,7 @@ function mapStateToProps(state) {
     error: state.error,
     inputValue: state.inputValue,
     loggedIn: state.loggedIn,
+    top: state.top,
   };
 }
 
@@ -129,6 +153,7 @@ Layout.propTypes = {
   error: PropTypes.string,
   inputValue: PropTypes.string,
   loggedIn: PropTypes.bool,
+  top: PropTypes.array,
 };
 
 export default connect(

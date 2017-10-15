@@ -12,6 +12,14 @@ function apiCall(action) {
           // eslint-disable-next-line
           headers: {'authorization': 'Bearer ' + localStorage.getItem('FavouriteBands.accessToken')},
         });
+      case 'SEARCH_TOP':
+        const type = action.payload;
+        // eslint-disable-next-line
+        console.log('apiCall https://api.spotify.com/v1/me/top/' + type);
+        return axios.get('https://api.spotify.com/v1/me/top/' + type, {
+          // eslint-disable-next-line
+          headers: {'authorization': 'Bearer ' + localStorage.getItem('FavouriteBands.accessToken')},
+        });
       default:
         return undefined;
     }
@@ -39,8 +47,17 @@ function* fetchArtist(action) {
   }
 }
 
+function* fetchTop(action) {
+  // eslint-disable-next-line no-console
+  console.log('fetchTop action', action);
+  const payload = yield call(apiCall, action);
+
+  yield put({payload: payload.data.items, type: 'TOP_FETCH_SUCCESS'});
+}
+
 function* artistSaga() {
   yield takeEvery('SEARCH_ARTIST', fetchArtist);
+  yield takeEvery('SEARCH_TOP', fetchTop);
 }
 
 function* sagas() {
