@@ -19,9 +19,9 @@ export function searchArtist(inputValue) {
   };
 }
 
-export function searchTop(type) {
+export function searchTop(limit) {
   return {
-    payload: type,
+    payload: limit,
     type: 'SEARCH_TOP',
   };
 }

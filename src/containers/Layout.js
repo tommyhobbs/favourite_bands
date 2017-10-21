@@ -22,6 +22,7 @@ class Layout extends React.Component {
     this.searchClicked = this.searchClicked.bind(this);
     this.buildArtistPosters = this.buildArtistPosters.bind(this);
     this.buildTopPosters = this.buildTopPosters.bind(this);
+    this.sliderChange - this.sliderChange.bind(this);
   }
 
   componentWillMount() {
@@ -86,6 +87,11 @@ class Layout extends React.Component {
     searchArtist(this.props.inputValue);
   }
 
+  sliderChange(e) {
+    const { actions: { searchTop }} = this.props;
+    searchTop('tracks');
+  }
+
   render() {
     return this.props.loggedIn ? (
       <div>
@@ -100,7 +106,7 @@ class Layout extends React.Component {
         <Tabs defaultIndex={1} onSelect={(index) => {
           if (index === 2) {
             const { actions: { searchTop }} = this.props;
-            searchTop('artists');
+            searchTop(20);
           }
         }}>
           <TabList>
@@ -118,6 +124,11 @@ class Layout extends React.Component {
             <div className="mdl-grid">{this.buildArtistPosters()}</div>
           </TabPanel>
           <TabPanel>
+            <input className="mdl-slider mdl-js-slider" type="range"
+              min="1" max="50" value="this.props.sliderValue" onChange={(e) => {
+                const { actions: { searchTop }} = this.props;
+                searchTop(e.target.value);
+              }}/>
             <div className="mdl-grid">{this.buildTopPosters()}</div>
           </TabPanel>
         </Tabs>
@@ -135,6 +146,7 @@ function mapStateToProps(state) {
     inputValue: state.inputValue,
     loggedIn: state.loggedIn,
     top: state.top,
+    sliderValue: state.sliderValue,
   };
 }
 
@@ -153,6 +165,7 @@ Layout.propTypes = {
   error: PropTypes.string,
   inputValue: PropTypes.string,
   loggedIn: PropTypes.bool,
+  sliderValue: PropTypes.number,
   top: PropTypes.array,
 };
 

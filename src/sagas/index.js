@@ -13,10 +13,10 @@ function apiCall(action) {
           headers: {'authorization': 'Bearer ' + localStorage.getItem('FavouriteBands.accessToken')},
         });
       case 'SEARCH_TOP':
-        const type = action.payload;
+        const limit = action.payload;
         // eslint-disable-next-line
-        console.log('apiCall https://api.spotify.com/v1/me/top/' + type);
-        return axios.get('https://api.spotify.com/v1/me/top/' + type, {
+        console.log('apiCall https://api.spotify.com/v1/me/top/artists?limit=' + limit);
+        return axios.get('https://api.spotify.com/v1/me/top/artists?limit=' + limit, {
           // eslint-disable-next-line
           headers: {'authorization': 'Bearer ' + localStorage.getItem('FavouriteBands.accessToken')},
         });
