@@ -7,24 +7,6 @@ import 'react-tabs/style/react-tabs.css';
 import FunctionButton from '../components/FunctionButton';
 import * as ArtistActionCreators from '../actions/artistActions';
 
-const windowMessage = (e) => {
-  if (typeof e.data === 'string') {
-    const data = JSON.parse(e.data);
-    if (data.hasOwnProperty('access_token')) {
-      localStorage.setItem('FavouriteBands.accessToken', data.access_token);
-    }
-    if (data.hasOwnProperty('expires_in')) {
-      const now = new Date();
-      // expires_in value is seconds
-      const expires = new Date(now.getTime() + data.expires_in * 1000);
-      // eslint-disable-next-line
-      console.log(`token expires at ${expires}`);
-      localStorage.setItem('FavouriteBands.expires', expires);
-    }
-    this.userLoggedIn(data);
-  }
-};
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -39,8 +21,26 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('message', windowMessage.bind(this));
+    window.addEventListener('message', this.windowMessage.bind(this));
   }
+
+  windowMessage = (e) => {
+    if (typeof e.data === 'string') {
+      const data = JSON.parse(e.data);
+      if (data.hasOwnProperty('access_token')) {
+        localStorage.setItem('FavouriteBands.accessToken', data.access_token);
+      }
+      if (data.hasOwnProperty('expires_in')) {
+        const now = new Date();
+        // expires_in value is seconds
+        const expires = new Date(now.getTime() + data.expires_in * 1000);
+        // eslint-disable-next-line
+        console.log(`token expires at ${expires}`);
+        localStorage.setItem('FavouriteBands.expires', expires);
+      }
+      this.userLoggedIn(data);
+    }
+  };
 
   userLoggedIn() {
     const { actions: { loginChange }} = this.props;
